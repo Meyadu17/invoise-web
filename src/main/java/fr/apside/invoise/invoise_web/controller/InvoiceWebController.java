@@ -1,10 +1,12 @@
 package fr.apside.invoise.invoise_web.controller;
 
-import fr.apside.invoise.core.controller.InvoiceControllerInterface;
 import fr.apside.invoise.core.entity.Invoice;
 import fr.apside.invoise.core.service.InvoiceServiceInterface;
+import fr.apside.invoise.invoise_web.form.InvoiceForm;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 // @Component indique que c'est un composant de l'application. Ici on utilise l'annotation fille :
 @Controller// On par de stereotype
 @RequestMapping("/invoice")
-public class InvoiceWebController implements InvoiceControllerInterface {
+public class InvoiceWebController {
 
 	// @Autowired permet l'injection de dépendance sans passer par le setter
 	// @Resource est l'équivalent JEE
@@ -27,17 +29,22 @@ public class InvoiceWebController implements InvoiceControllerInterface {
 		this.invoiceServiceInterface = invoiceServiceInterface;
 	}
 
-	@PostMapping("")
+	@PostMapping
 	// ModelAttribute va permettre d'instancier l'objet Invoice et de le fournir en entrée (équivaut à Invoice invoice=new Invoice();)
 	// ModelAttribute va donner un id à l'objet
-	public String createInvoice(@ModelAttribute Invoice invoice){
-
+	// BindingResult doit être placé dans la signature après le dernier @ModelAttribute)
+	public String createInvoice(@Valid @ModelAttribute InvoiceForm invoiceForm, BindingResult bindingResult){
+		if(bindingResult.hasErrors()){
+			return "invoice-create-form";
+		}
+		Invoice invoice = new Invoice();
+		invoice.setCustomerName(invoiceForm.getCustomerName());
+		invoice.setOrderNumber(invoiceForm.getOrderNumber());
 
 		invoiceServiceInterface.createInvoice(invoice);
 
 		return "invoice-created";
 	}
-
 	/*
 	Une méthode, mais peu courante :
 	@RequestMapping("/invoice-home")
@@ -69,7 +76,7 @@ public class InvoiceWebController implements InvoiceControllerInterface {
 	}
 
 	@GetMapping("/create-form")
-	public String displayInvoiceCreateForm(@ModelAttribute Invoice invoice) {
+	public String displayInvoiceCreateForm(@ModelAttribute InvoiceForm invoice) {
 		return "invoice-create-form";
 	}
 
