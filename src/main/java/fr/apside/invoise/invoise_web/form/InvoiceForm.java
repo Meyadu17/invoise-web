@@ -7,10 +7,10 @@ public class InvoiceForm {
 	private String number;
 
 	// @NotBlank permet de vérifier que l'élément n'est ni null, ni vide, ni rempli seulement d'espaces.
-	@NotBlank
+	@NotBlank(message="Le nom du client est obligatoire.")
 	private String customerName;
 
-	@Size(min = 10, max = 13)
+	@Size(min = 10, max = 13, message = "le numéro de commande doit être compris entre 10 et 13 caractères.")
 	private String orderNumber;
 
 	public String getNumber() {
