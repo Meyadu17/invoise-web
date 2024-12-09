@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:action="@{/invoice}" method="post" th:object="${invoiceForm}">
+<form th:action="@{/invoice/create}" method="post" th:object="${invoiceForm}">
 
     <p>Nom du client <input type="text" th:field="*{customerName}"/></p>
     <div th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}"></div>

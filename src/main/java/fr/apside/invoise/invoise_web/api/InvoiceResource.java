@@ -32,9 +32,9 @@ public class InvoiceResource {
 
 	@GetMapping
 	public List<Invoice> list() {
-		System.out.println("La méthode display Home a été invoquée");
 
 		return invoiceServiceInterface.getInvoiceList();
+
 	}
 
 	// En retournant l'objet l'idée est de convertir celui-ci en XML ou en JSON ou autre afin que l'émetteur en reçoive une représentation textuelle qu'il
@@ -54,9 +54,9 @@ public class InvoiceResource {
 	// JSON
 	@GetMapping("/{id}")
 	public Invoice get(@PathVariable("id") String number) {
-		System.out.println("La méthode display Invoice a été invoquée");
 
 		return invoiceServiceInterface.getInvoiceByNumber(number);
+
 	}
 
 	/*@GetMapping("/create-form")

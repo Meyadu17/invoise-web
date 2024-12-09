@@ -1,11 +1,15 @@
 package fr.apside.invoise.invoise_web.controller;
 
+import fr.apside.invoise.core.entity.Invoice;
 import fr.apside.invoise.core.service.InvoiceServiceInterface;
 import fr.apside.invoise.invoise_web.form.InvoiceForm;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 // @Component indique que c'est un composant de l'application. Ici on utilise l'annotation fille :
@@ -24,8 +28,7 @@ public class InvoiceWebController {
 		this.invoiceServiceInterface = invoiceServiceInterface;
 	}
 
-	/*@PostMapping
-	// ModelAttribute va permettre d'instancier l'objet Invoice et de le fournir en entrée (équivaut à Invoice invoice=new Invoice();)
+	@PostMapping("/create")	// ModelAttribute va permettre d'instancier l'objet Invoice et de le fournir en entrée (équivaut à Invoice invoice=new Invoice();)
 	// ModelAttribute va donner un id à l'objet
 	// BindingResult doit être placé dans la signature après le dernier @ModelAttribute)
 	public String createInvoice(@Valid @ModelAttribute InvoiceForm invoiceForm, BindingResult bindingResult){
@@ -39,7 +42,7 @@ public class InvoiceWebController {
 		invoiceServiceInterface.createInvoice(invoice);
 
 		return "invoice-created";
-	}*/
+	}
 	/*
 	Une méthode, mais peu courante :
 	@RequestMapping("/invoice-home")
@@ -56,7 +59,6 @@ public class InvoiceWebController {
 	// Plus proche des standards actuels
 	@GetMapping("/home")
 	public String displayHome(Model model) {
-		System.out.println("La méthode display Home a été invoquée");
 
 		model.addAttribute("invoices", invoiceServiceInterface.getInvoiceList());
 		return "invoice-home";
